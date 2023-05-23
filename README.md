@@ -2,6 +2,8 @@
 在QQ群玩数字华容道，基于nonebot框架的数字华容道插件，plugin of puzzle base on nonebot frame
 
 ## 用法
+`pip install nonebot-plugin-puzzle`
+或者
 将nonebot_plugin_puzzle拷贝到bot根目录src/plugin下
 在bot.py中添加如下代码
 `nonebot.load_plugins('src/plugins/nonebot_plugin_puzzle')`
