@@ -6,6 +6,7 @@
 ## 用法
 `pip install nonebot-plugin-puzzle`
 或者<br>
+在pyproject.toml#plugins中添加`nonebot_plugin_puzzle`或者<br>
 将nonebot_plugin_puzzle拷贝到bot根目录src/plugin下
 在bot.py中添加如下代码
 `nonebot.load_plugins('src/plugins/nonebot_plugin_puzzle')`
