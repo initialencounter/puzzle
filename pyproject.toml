@@ -5,7 +5,7 @@ description = "在QQ群玩数字华容道，基于nonebot框架的数字华容�
 authors = [
     {name = "initialencounter", email = "2911583893@qq.com"},
 ]
-license-expression = "MIT"
+license = "MIT"
 dependencies = ["nonebot2>=2.0.0b2", "nonebot-adapter-onebot>=2.0.0b1", "Pillow>=9.0.0", ]
 requires-python = ">=3.8"
 readme = "README.md"
