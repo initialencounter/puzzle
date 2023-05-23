@@ -1,10 +1,8 @@
-import time
-import random
 from nonebot import on_command
 from nonebot.adapters.onebot.v11 import MessageSegment
 from nonebot.adapters import Message
 from nonebot.params import CommandArg
-from .klotsk import Klotsk
+from .puzzle import Klotsk
 from nonebot.adapters.onebot.v11 import GroupMessageEvent
 from .rank import add_point,get_rank,get_point
 

@@ -1,5 +1,7 @@
 # nonebot-plugin-puzzle
-在QQ群玩数字华容道，基于nonebot框架的数字华容道插件，plugin of puzzle base on nonebot frame
+在QQ群玩数字华容道，基于nonebot框架的数字华容道插件，plugin of puzzle base on nonebot frame<br>
+原游戏[扫雷联萌](tapsss.com)
+
 
 ## 用法
 `pip install nonebot-plugin-puzzle`
@@ -23,6 +25,7 @@
 
 ### 自定义
 ![alt 自定义](https://gchat.qpic.cn/gchatpic_new/2743836019/3889899914-2767912414-71B2F6BCEEFFCAD4967651D27558C1AB/0?term=3&amp)
+
 
 ## 联系作者
 ### QQ群399899914
