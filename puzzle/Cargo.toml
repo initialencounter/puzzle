@@ -1,0 +1,27 @@
+[package]
+name = "puzzle-game"
+version = "0.1.0"
+edition = "2021"
+authors = ["inintencunter <2911583893@qq.com>"]
+include = [
+    "readme.md",
+    "src",
+    "Cargo.toml",
+]
+description = "数字华容道 --命令行版"
+homepage = "https://github.com/initialencounter/puzzle"
+readme = "readme.md"
+keywords = [
+    "puzzle",
+    "game",
+    "puzzle-game",
+]
+license = "AGPL-3.0"
+repository = "https://github.com/initialencounter/puzzle"
+
+[dependencies]
+rand = "0.9.0-alpha.1"
+log = "0.4.21"
+phf = { version = "0.11.2", features = ["macros"] }
+device_query = "1.1.3"
+
