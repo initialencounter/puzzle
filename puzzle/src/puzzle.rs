@@ -1,6 +1,14 @@
-use std::time::{SystemTime, UNIX_EPOCH};
 use log::info;
 use rand::Rng;
+use std::time::{SystemTime, UNIX_EPOCH};
+
+use crossterm::style::{Color, PrintStyledContent, Stylize};
+use crossterm::{
+    cursor::MoveTo,
+    terminal::{Clear, ClearType},
+    ExecutableCommand,
+};
+use std::io::{stdout, Stdout};
 
 const DIRECTION_DIST: phf::Map<&'static str, [i32; 2]> = phf::phf_map! {
     "U" => [-1, 0],
@@ -11,6 +19,212 @@ const DIRECTION_DIST: phf::Map<&'static str, [i32; 2]> = phf::phf_map! {
 
 const DIRECTION_LIST: [&str; 4] = ["U", "D", "L", "R"];
 
+const COLOR_MATRIX: [[Color; 10]; 10] = [
+    [
+        Color::Grey,
+        Color::Grey,
+        Color::Grey,
+        Color::Grey,
+        Color::Grey,
+        Color::Grey,
+        Color::Grey,
+        Color::Grey,
+        Color::Grey,
+        Color::Grey,
+    ],
+    [
+        Color::Grey,
+        Color::Green,
+        Color::Green,
+        Color::Green,
+        Color::Green,
+        Color::Green,
+        Color::Green,
+        Color::Green,
+        Color::Green,
+        Color::Green,
+    ],
+    [
+        Color::Grey,
+        Color::Green,
+        Color::Blue,
+        Color::Blue,
+        Color::Blue,
+        Color::Blue,
+        Color::Blue,
+        Color::Blue,
+        Color::Blue,
+        Color::Blue,
+    ],
+    [
+        Color::Grey,
+        Color::Green,
+        Color::Blue,
+        Color::Red,
+        Color::Red,
+        Color::Red,
+        Color::Red,
+        Color::Red,
+        Color::Red,
+        Color::Red,
+    ],
+    [
+        Color::Grey,
+        Color::Green,
+        Color::Blue,
+        Color::Red,
+        Color::Rgb {
+            r: 255,
+            g: 165,
+            b: 0,
+        },
+        Color::Rgb {
+            r: 255,
+            g: 165,
+            b: 0,
+        },
+        Color::Rgb {
+            r: 255,
+            g: 165,
+            b: 0,
+        },
+        Color::Rgb {
+            r: 255,
+            g: 165,
+            b: 0,
+        },
+        Color::Rgb {
+            r: 255,
+            g: 165,
+            b: 0,
+        },
+        Color::Rgb {
+            r: 255,
+            g: 165,
+            b: 0,
+        },
+    ],
+    [
+        Color::Grey,
+        Color::Green,
+        Color::Blue,
+        Color::Red,
+        Color::Rgb {
+            r: 255,
+            g: 165,
+            b: 0,
+        },
+        Color::Yellow,
+        Color::Yellow,
+        Color::Yellow,
+        Color::Yellow,
+        Color::Yellow,
+    ],
+    [
+        Color::Grey,
+        Color::Green,
+        Color::Blue,
+        Color::Red,
+        Color::Rgb {
+            r: 255,
+            g: 165,
+            b: 0,
+        },
+        Color::Yellow,
+        Color::Rgb {
+            r: 50,
+            g: 170,
+            b: 50,
+        },
+        Color::Rgb {
+            r: 50,
+            g: 170,
+            b: 50,
+        },
+        Color::Rgb {
+            r: 50,
+            g: 170,
+            b: 50,
+        },
+        Color::Rgb {
+            r: 50,
+            g: 170,
+            b: 50,
+        },
+    ],
+    [
+        Color::Grey,
+        Color::Green,
+        Color::Blue,
+        Color::Red,
+        Color::Rgb {
+            r: 255,
+            g: 165,
+            b: 0,
+        },
+        Color::Yellow,
+        Color::Rgb {
+            r: 50,
+            g: 170,
+            b: 50,
+        },
+        Color::Cyan,
+        Color::Cyan,
+        Color::Cyan,
+    ],
+    [
+        Color::Grey,
+        Color::Green,
+        Color::Blue,
+        Color::Red,
+        Color::Rgb {
+            r: 255,
+            g: 165,
+            b: 0,
+        },
+        Color::Yellow,
+        Color::Rgb {
+            r: 50,
+            g: 170,
+            b: 50,
+        },
+        Color::Cyan,
+        Color::Rgb {
+            r: 138,
+            g: 43,
+            b: 226,
+        },
+        Color::Rgb {
+            r: 138,
+            g: 43,
+            b: 226,
+        },
+    ],
+    [
+        Color::Grey,
+        Color::Green,
+        Color::Blue,
+        Color::Red,
+        Color::Rgb {
+            r: 255,
+            g: 165,
+            b: 0,
+        },
+        Color::Yellow,
+        Color::Rgb {
+            r: 50,
+            g: 170,
+            b: 50,
+        },
+        Color::Cyan,
+        Color::Rgb {
+            r: 138,
+            g: 43,
+            b: 226,
+        },
+        Color::Black,
+    ],
+];
 pub struct Puzzle {
     pub cmds_str: String,
     mode: usize,
@@ -56,9 +270,9 @@ impl Puzzle {
     }
 
     fn find_0(&self) -> Option<(usize, usize)> {
-        for i in 0..self.mode {
-            for j in 0..self.mode {
-                if self.puzzle[i][j] == 0 {
+        for (i, row) in self.puzzle.iter().enumerate() {
+            for (j, &value) in row.iter().enumerate() {
+                if value == 0 {
                     return Some((i, j));
                 }
             }
@@ -69,10 +283,11 @@ impl Puzzle {
     pub fn move_tile<'a>(&'a mut self, direction: &'a str) -> &str {
         self.cmds_str.push_str(direction);
         if let Some((r, c)) = self.find_0() {
-            if (r == 0 && direction == "U") ||
-                (r == self.mode - 1 && direction == "D") ||
-                (c == 0 && direction == "L") ||
-                (c == self.mode - 1 && direction == "R") {
+            if (r == 0 && direction == "U")
+                || (r == self.mode - 1 && direction == "D")
+                || (c == 0 && direction == "L")
+                || (c == self.mode - 1 && direction == "R")
+            {
                 return "";
             }
 
@@ -129,8 +344,16 @@ impl Puzzle {
     }
 
     pub fn log_state(&self) {
-        for row in &self.puzzle {
-            println!("{:?}", row);
+        let mut stdout = stdout();
+        stdout.execute(Clear(ClearType::All)).unwrap();
+        stdout.execute(MoveTo(0, 0)).unwrap();
+        for (i, row) in self.puzzle.iter().enumerate() {
+            for (j, &value) in row.iter().enumerate() {
+                stdout
+                    .execute(MoveTo((j * 4) as u16, (i * 2) as u16))
+                    .unwrap();
+                print_with_color(value, &mut stdout, self.mode)
+            }
         }
         println!("\n")
     }
@@ -149,5 +372,17 @@ impl Puzzle {
         let minutes = (duration % 3600000) / 60000;
         let seconds = (duration % 60000) / 1000;
         format!("{}:{}:{}", hours, minutes, seconds)
+    }
+}
+
+fn print_with_color(value: i32, stdout: &mut Stdout, mode: usize) {
+    if value == 0 {
+        let styled_value = "■".with(Color::White);
+        stdout.execute(PrintStyledContent(styled_value)).unwrap();
+    } else {
+        let i = ((value - 1) / mode as i32) as usize;
+        let j = (value - 1) as usize % mode;
+        let styled_value = format!("{}", value).with(COLOR_MATRIX[i][j]);
+        stdout.execute(PrintStyledContent(styled_value)).unwrap();
     }
 }

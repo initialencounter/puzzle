@@ -24,4 +24,5 @@ rand = "0.9.0-alpha.1"
 log = "0.4.21"
 phf = { version = "0.11.2", features = ["macros"] }
 device_query = "1.1.3"
+crossterm = "0.27.0"
 
