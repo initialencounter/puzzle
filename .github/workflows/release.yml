@@ -50,7 +50,6 @@ jobs:
         run: |
           sudo apt-get update && sudo apt-get install pkg-config
           dpkg -L libx11-dev | grep x11.pc
-          echo "PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig" >> $GITHUB_ENV
 
       - name: Build | Build [Cross]
         if: matrix.os == 'ubuntu-latest'
@@ -59,7 +58,7 @@ jobs:
           PKG_CONFIG_ALLOW_CROSS: 1
         run: |
           cd puzzle-game
-          cross build --release --locked --target ${{ matrix.target }}
+          cargo build --release --locked --target ${{ matrix.target }}
 
       - name: Build | Build [Cargo]
         if: matrix.os == 'windows-latest'
