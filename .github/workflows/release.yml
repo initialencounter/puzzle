@@ -45,21 +45,13 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         uses: taiki-e/install-action@cross
 
-      - name: Build | Build [Cross]
-        if: matrix.target == 'x86_64-unknown-linux-gnu'
-        env:
-          PKG_CONFIG_PATH: /usr/lib/x86_64-linux-gnu/pkgconfig
-        run: |
-          dpkg -L libx11-dev | grep x11.pc
-          cd puzzle-game
-          cross build --release --locked --target ${{ matrix.target }}
+      - name: Set PKG_CONFIG_PATH
+        if: matrix.os == 'ubuntu-latest'
+        run: echo "PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig" >> $GITHUB_ENV
 
       - name: Build | Build [Cross]
-        if: matrix.target == 'aarch64-unknown-linux-gnu'
-        env:
-          PKG_CONFIG_PATH: /usr/lib/aarch64-linux-gnu/pkgconfig
+        if: matrix.os == 'ubuntu-latest'
         run: |
-          dpkg -L libx11-dev | grep x11.pc
           cd puzzle-game
           cross build --release --locked --target ${{ matrix.target }}
 
