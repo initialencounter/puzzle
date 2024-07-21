@@ -1,8 +1,7 @@
 name: Release
 
 on:
-  release:
-    types: [created]
+  workflow_dispatch:
 
 jobs:
   release:
@@ -11,18 +10,18 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - target: x86_64-pc-windows-msvc
-            os: windows-latest
-            name: puzzle_game-x86_64-pc-windows-msvc.zip
-            rustflags: -C target-feature=+crt-static
+          # - target: x86_64-pc-windows-msvc
+          #   os: windows-latest
+          #   name: puzzle_game-x86_64-pc-windows-msvc.zip
+          #   rustflags: -C target-feature=+crt-static
 
           - target: x86_64-unknown-linux-gnu
             os: ubuntu-latest
             name: puzzle_game-x86_64-unknown-linux-gnu.tar.gz
 
-          - target: aarch64-unknown-linux-gnu
-            os: ubuntu-latest
-            name: puzzle_game-aarch64-unknown-linux-gnu.tar.gz
+          # - target: aarch64-unknown-linux-gnu
+          #   os: ubuntu-latest
+          #   name: puzzle_game-aarch64-unknown-linux-gnu.tar.gz
 
           # - target: aarch64-apple-darwin
           #   os: macOS-11
