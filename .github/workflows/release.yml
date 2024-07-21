@@ -15,9 +15,9 @@ jobs:
           #   name: puzzle_game-x86_64-pc-windows-msvc.zip
           #   rustflags: -C target-feature=+crt-static
 
-          - target: x86_64-unknown-linux-gnu
-            os: ubuntu-latest
-            name: puzzle_game-x86_64-unknown-linux-gnu.tar.gz
+          # - target: x86_64-unknown-linux-gnu
+          #   os: ubuntu-latest
+          #   name: puzzle_game-x86_64-unknown-linux-gnu.tar.gz
 
           - target: aarch64-unknown-linux-gnu
             os: ubuntu-latest
@@ -44,7 +44,9 @@ jobs:
       - name: Install gcc-aarch64-linux-gnu
         if: matrix.target == 'aarch64-unknown-linux-gnu'
         run: |
-          sudo apt-get update && sudo apt-get install -yq gcc-aarch64-linux-gnu
+          sudo apt-get update && sudo apt-get install -yq gcc-aarch64-linux-gnu libx11-dev:arm64 libxkbcommon-x11-dev:arm64
+          dpkg -L libx11-dev:arm64 | grep x11.pc
+          dpkg -L libx11-dev | grep x11.pc
           echo "PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig" >> $GITHUB_ENV
           echo "JEMALLOC_SYS_WITH_LG_PAGE=16" >> $GITHUB_ENV
           echo "CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=/usr/bin/aarch64-linux-gnu-gcc" >> $GITHUB_ENV
