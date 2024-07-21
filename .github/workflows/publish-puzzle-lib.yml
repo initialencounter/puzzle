@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  publish-dockerhub:
+  publish-crate:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
