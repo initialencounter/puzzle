@@ -7,24 +7,72 @@ on:
 jobs:
   release:
     name: release ${{ matrix.target }}
-    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         include:
-          - target: x86_64-pc-windows-gnu
-            archive: zip
-          - target: x86_64-unknown-linux-musl
-            archive: tar.gz
-          - target: x86_64-apple-darwin
-            archive: zip
+          - target: x86_64-pc-windows-msvc
+            os: windows-latest
+            name: puzzle_game-x86_64-pc-windows-msvc.zip
+            rustflags: -C target-feature=+crt-static
+            os: ubuntu-latest
+
+          - target: x86_64-unknown-linux-gnu
+            os: ubuntu-latest
+            name: puzzle_game-x86_64-unknown-linux-gnu.tar.gz
+
+          - target: aarch64-unknown-linux-musl
+            os: ubuntu-latest
+            name: puzzle_game-aarch64-unknown-linux-musl.tar.gz
+
+          - target: aarch64-apple-darwin
+            os: macOS-11
+            name: puzzle_game-aarch64-apple-darwin.tar.gz
+
+    runs-on: ${{ matrix.os }}
+    continue-on-error: true
+    env:
+      RUSTFLAGS: ${{ matrix.rustflags || '' }}
     steps:
-      - uses: actions/checkout@master
-      - name: Compile and release
-        uses: rust-build/rust-build.action@v1.4.5
-        env:
-          SRC_DIR: './puzzle'
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Setup | Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup | Rust
+        uses: dtolnay/rust-toolchain@master
         with:
-          RUSTTARGET: ${{ matrix.target }}
-          ARCHIVE_TYPES: ${{ matrix.archive }}
+          toolchain: stable
+          target: ${{ matrix.target }}
+
+      - name: Build | Build [Cross]
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libx11-dev
+          cd puzzle-game
+          cross build --release --locked --target ${{ matrix.target }}
+
+      - name: Build | Build [Cargo]
+        if: matrix.os != 'ubuntu-latest'
+        run: |
+          cd puzzle-game
+          cargo build --release --locked --target ${{ matrix.target }}
+
+      - name: Post Build | Prepare artifacts [Windows]
+        if: matrix.os == 'windows-latest'
+        run: |
+          cd target/${{ matrix.target }}/release
+          7z a ../../../${{ matrix.name }} puzzle_game.exe
+          cd ../../../
+
+      - name: Post Build | Prepare artifacts [-nix]
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          cd target/${{ matrix.target }}/release
+          tar czvf ../../../${{ matrix.name }} puzzle_game
+          cd ../../../
+
+      - name: Release | Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: puzzle-game/${{ matrix.name }}
+          path: puzzle-game/${{ matrix.name }}
