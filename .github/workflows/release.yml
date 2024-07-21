@@ -47,7 +47,10 @@ jobs:
 
       - name: Set PKG_CONFIG_PATH
         if: matrix.os == 'ubuntu-latest'
-        run: echo "PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig" >> $GITHUB_ENV
+        run: |
+          sudo apt-get update && sudo apt-get install pkg-config
+          dpkg -L libx11-dev | grep x11.pc
+          echo "PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig" >> $GITHUB_ENV
 
       - name: Build | Build [Cross]
         if: matrix.os == 'ubuntu-latest'
