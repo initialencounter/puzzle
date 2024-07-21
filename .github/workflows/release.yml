@@ -50,7 +50,7 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
-          sudo apt-get install -y libx11-dev
+          sudo apt-get install -y libx11-dev libxkbcommon-x11-dev
           cd puzzle-game
           cross build --release --locked --target ${{ matrix.target }}
 
