@@ -51,6 +51,9 @@ jobs:
 
       - name: Build | Build [Cross]
         if: matrix.os == 'ubuntu-latest'
+        env:
+          PKG_CONFIG_PATH: /usr/lib/x86_64-linux-gnu/pkgconfig
+          PKG_CONFIG_ALLOW_CROSS: 1
         run: |
           cd puzzle-game
           cross build --release --locked --target ${{ matrix.target }}
