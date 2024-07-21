@@ -2,12 +2,11 @@ use device_query::{DeviceEvents, DeviceState, Keycode};
 use std::env;
 use std::io::stdin;
 use std::process::exit;
-mod puzzle;
-use puzzle::Puzzle;
+use puzzle_lib::Puzzle;
 mod utils;
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
-use utils::is_integer;
+use utils::{is_integer, log_state};
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -27,7 +26,7 @@ fn main() {
 fn direction(puzzle: Arc<Mutex<Puzzle>>) {
     {
         let puzzle = puzzle.lock().unwrap();
-        puzzle.log_state();
+        log_state(&puzzle);
     }
     let device_state = DeviceState::new();
     let puzzle_clone = Arc::clone(&puzzle);
@@ -51,7 +50,7 @@ fn direction(puzzle: Arc<Mutex<Puzzle>>) {
             }
             _ => {}
         }
-        puzzle.log_state();
+        log_state(&puzzle);
         if puzzle.check() {
             println!("{}\n", puzzle.cmds_str);
             println!(
@@ -64,13 +63,13 @@ fn direction(puzzle: Arc<Mutex<Puzzle>>) {
     app_loop()
 }
 fn algebra(mut puzzle: Puzzle) {
-    puzzle.log_state();
+    log_state(&puzzle);
     println!("请输入反向U、D、L、R 代表上下左右: ");
     while !puzzle.check() {
         let mut input: String = String::new();
         stdin().read_line(&mut input).expect("读取输入失败");
         puzzle.move_sequence(&input);
-        puzzle.log_state();
+        log_state(&puzzle);
     }
     is_win(puzzle)
 }
