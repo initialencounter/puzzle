@@ -15,7 +15,6 @@ jobs:
             os: windows-latest
             name: puzzle_game-x86_64-pc-windows-msvc.zip
             rustflags: -C target-feature=+crt-static
-            os: ubuntu-latest
 
           - target: x86_64-unknown-linux-gnu
             os: ubuntu-latest
