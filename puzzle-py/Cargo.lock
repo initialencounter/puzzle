@@ -132,8 +132,8 @@ dependencies = [
 ]
 
 [[package]]
-name = "puzzle-py"
-version = "0.1.0"
+name = "puzzle-rs"
+version = "0.1.1"
 dependencies = [
  "puzzle-lib",
  "pyo3",

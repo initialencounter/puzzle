@@ -1,7 +1,7 @@
 [package]
 name = "puzzle-rs"
 description = "数字华容道 核心库"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["inintencunter <2911583893@qq.com>"]
 homepage = "https://github.com/initialencounter/puzzle"

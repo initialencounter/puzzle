@@ -40,7 +40,7 @@ impl PuzzleCore {
 }
 
 #[pymodule]
-fn puzzle_py(m: &Bound<'_, PyModule>) -> PyResult<()> {
+fn puzzle_rs(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<PuzzleCore>()?;
     Ok(())
 }
