@@ -1,14 +1,14 @@
 import sqlite3
 
 
-def add_point(uid, group_id, name,mode):
+def add_point(uid, group_id, name, mode):
     init()
     conn = sqlite3.connect("puzzle.sqlite")
     cursor = conn.cursor()
     sql = f"select * from sign_in where uid={uid} and belonging_group={group_id} and mode = {mode}"
     data = cursor.execute(sql).fetchall()
     if data:
-        point_now = data[0][1]+1
+        point_now = data[0][1] + 1
         sql = f'''UPDATE sign_in set points = {point_now} where uid = {uid} and belonging_group = {group_id} and mode = {mode}'''
         cursor.execute(sql)
         cursor.close()
@@ -21,6 +21,7 @@ def add_point(uid, group_id, name,mode):
         conn.commit()
         conn.close()
 
+
 def get_point(group: int, uid: int, mode: int) -> int:
     init()
     conn = sqlite3.connect("puzzle.sqlite")
@@ -32,7 +33,6 @@ def get_point(group: int, uid: int, mode: int) -> int:
     conn.commit()
     conn.close()
     return point
-
 
 
 def init():
@@ -53,7 +53,7 @@ def init():
     conn.close()
 
 
-def get_rank(group_id,mode):
+def get_rank(group_id, mode):
     init()
     conn = sqlite3.connect("puzzle.sqlite")
     cursor = conn.cursor()
@@ -62,16 +62,15 @@ def get_rank(group_id,mode):
     cursor.close()
     conn.commit()
     conn.close()
-    rank_text =f'本群{(mode*mode)-1}puzzle积分排名：\n获取方式：还原puzle\n-------------\n'
+    rank_text = f'本群{(mode * mode) - 1}puzzle积分排名：\n获取方式：还原puzle\n-------------\n'
     rank_num = 1
     for i in data:
-        if i[2]==group_id and i[-1]==mode:
+        if i[2] == group_id and i[-1] == mode:
             rank_text += f"{rank_num}.{i[4]}     {i[1]}\n"
-            rank_num+=1
+            rank_num += 1
     return rank_text
 
 
-
 if __name__ == '__main__':
-    add_point(29999,2022202,'feng',4)
-    print(get_rank(2022202,4))
+    add_point(29999, 2022202, 'feng', 4)
+    print(get_rank(2022202, 4))
