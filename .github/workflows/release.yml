@@ -24,6 +24,7 @@ jobs:
 
           - target: aarch64-unknown-linux-gnu
             os: ubuntu-latest
+            arch: arm64
             name: puzzle_game-aarch64-unknown-linux-gnu.tar.gz
 
           # - target: aarch64-apple-darwin
@@ -47,12 +48,17 @@ jobs:
         with:
           toolchain: stable
           target: ${{ matrix.target }}
+
+      - name: Install Cross-Compile Support (ARM64)
+        if: matrix.target == 'aarch64-unknown-linux-gnu'
+        uses: cyberjunk/gha-ubuntu-cross@v4
+        with:
+          arch: arm64
           
       - name: Install gcc-aarch64-linux-gnu
         if: matrix.target == 'aarch64-unknown-linux-gnu'
         run: |
-          sudo apt-get update && sudo apt-get install pkg-config
-          dpkg -L libx11-dev | grep x11.pc
+          sudo apt-get update && sudo apt-get install pkg-config libx11-dev:arm64
           echo "PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig" >> $GITHUB_ENV
           sudo apt-get update && sudo apt-get install -yq gcc-aarch64-linux-gnu
           echo "JEMALLOC_SYS_WITH_LG_PAGE=16" >> $GITHUB_ENV
