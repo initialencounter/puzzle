@@ -1,5 +1,5 @@
 [package]
-name = "puzzle-py"
+name = "puzzle-rs"
 description = "数字华容道 核心库"
 version = "0.1.0"
 edition = "2021"
@@ -9,7 +9,7 @@ repository = "https://github.com/initialencounter/puzzle"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [lib]
-name = "puzzle_py"
+name = "puzzle-rs"
 crate-type = ["cdylib"]
 
 [dependencies]
