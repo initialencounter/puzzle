@@ -1,6 +1,6 @@
 [project]
 name = "nonebot-plugin-puzzle"
-version = "1.0.1"
+version = "1.0.3"
 description = "在QQ群玩数字华容道，基于nonebot框架的数字华容道插件，plugin of puzzle base on nonebot frame"
 authors = [
     {name = "initialencounter", email = "2911583893@qq.com"},
