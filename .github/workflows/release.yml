@@ -50,6 +50,7 @@ jobs:
           target: ${{ matrix.target }}
 
       - name: Install Cross-Compile Support (ARM64)
+        if: matrix.target == 'aarch64-unknown-linux-gnu'
         uses: cyberjunk/gha-ubuntu-cross@v4
         with:
           arch: arm64
