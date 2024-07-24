@@ -215,7 +215,7 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           image: node:${{ matrix.node }}-slim
-          options: '--platform linux/arm64 -v ${{ github.workspace }}:/build -w /build'
+          options: '--platform linux/arm64 -v ${{ github.workspace }}/bindings/node:/build -w /build'
           run: |
             set -e
             yarn test
