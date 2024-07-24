@@ -196,6 +196,4 @@ Cargo.lock
 
 *.node
 
-index*
-
 /.idea
