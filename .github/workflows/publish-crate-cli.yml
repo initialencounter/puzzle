@@ -1,5 +1,4 @@
-name: publish-puzzle-lib
-
+name: Publish to Crate Cli
 on:
   workflow_dispatch:
 
@@ -14,5 +13,5 @@ jobs:
         override: true
     - uses: katyo/publish-crates@v2
       with:
-        path: './puzzle-lib'
+        path: './puzzle-game'
         registry-token: ${{ secrets.CARGO_REGISTRY_TOKEN }}

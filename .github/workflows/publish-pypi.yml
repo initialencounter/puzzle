@@ -3,7 +3,7 @@
 #
 #    maturin generate-ci github
 #
-name: PyO3
+name: Publish to pypi
 
 on:
   workflow_dispatch:

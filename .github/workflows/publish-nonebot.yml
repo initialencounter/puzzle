@@ -1,4 +1,4 @@
-name: nb-plugin-publish
+name: Publish to NoneBot
 
 on:
   workflow_dispatch:
