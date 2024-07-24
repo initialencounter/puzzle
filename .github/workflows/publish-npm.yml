@@ -252,6 +252,7 @@ jobs:
       - name: Publish
         run: |
           npm config set provenance true
+          cat package.json
           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
           npm publish --access public
         env:
