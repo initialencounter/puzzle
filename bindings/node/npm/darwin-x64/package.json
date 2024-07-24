@@ -7,6 +7,9 @@
   "cpu": [
     "x64"
   ],
+  "repository": {
+    "url": "https://github.com/initialencounter/puzzle"
+  },
   "main": "puzzle.darwin-x64.node",
   "files": [
     "puzzle.darwin-x64.node"
