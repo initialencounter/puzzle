@@ -5,7 +5,7 @@ on:
 
 env:
   DEBUG: napi:*
-  APP_NAME: rookie
+  APP_NAME: puzzle
   MACOSX_DEPLOYMENT_TARGET: "10.13"
 permissions:
   contents: write
@@ -41,6 +41,7 @@ jobs:
           - host: ubuntu-latest
             target: aarch64-linux-android
             build: yarn build --target aarch64-linux-android
+            android: true
           - host: windows-latest
             target: aarch64-pc-windows-msvc
             build: yarn build --target aarch64-pc-windows-msvc
@@ -50,7 +51,14 @@ jobs:
       - uses: actions/checkout@v4
       - name: Setup node
         uses: actions/setup-node@v4
-        if: ${{ !matrix.settings.docker }}
+        if: ${{ !matrix.settings.docker && !matrix.settings.android }}
+        with:
+          node-version: 20
+          cache: yarn
+          cache-dependency-path: bindings/node
+      - name: Setup node (android only)
+        uses: actions/setup-node@v4
+        if: ${{ matrix.settings.android }}
         with:
           node-version: 20
           cache: yarn
