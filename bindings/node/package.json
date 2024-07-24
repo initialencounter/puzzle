@@ -21,7 +21,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/initialencounter/puzzle"
+    "url": "git+https://github.com/initialencounter/puzzle.git"
   },
   "bugs": {
     "url": "https://github.com/initialencounter/puzzle/issues"
@@ -39,8 +39,6 @@
     "node": ">= 10"
   },
   "scripts": {
-    "set-proxy": "npm config set registry https://registry.npmmirror.com",
-    "unset-proxy": "npm config delete registry",
     "artifacts": "napi artifacts",
     "build": "napi build --platform --release",
     "build:debug": "napi build --platform",
