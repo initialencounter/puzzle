@@ -20,7 +20,8 @@
     "url": "https://github.com/initialencounter"
   },
   "repository": {
-    "url": "https://github.com/initialencounter/puzzle"
+    "type": "git",
+    "url": "git+https://github.com/initialencounter/puzzle.git"
   },
   "bugs": {
     "url": "https://github.com/initialencounter/puzzle/issues"
