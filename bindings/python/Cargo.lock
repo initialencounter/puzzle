@@ -124,8 +124,6 @@ dependencies = [
 [[package]]
 name = "puzzle-lib"
 version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "200309d0485234c79608fa8eeb04f866f5eb6c71c18c2ca97004907d47f0cd9f"
 dependencies = [
  "phf",
  "rand",
@@ -133,7 +131,7 @@ dependencies = [
 
 [[package]]
 name = "puzzle-rs"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "puzzle-lib",
  "pyo3",
