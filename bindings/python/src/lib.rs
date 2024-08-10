@@ -22,7 +22,7 @@ impl PuzzleCore {
         self.inner.puzzle.clone()
     }
 
-    pub fn move_tile<'a>(&'a mut self, direction: &'a str) -> &str {
+    pub fn move_tile(&mut self, direction: char) -> Option<char> {
         self.inner.move_tile(direction)
     }
     
