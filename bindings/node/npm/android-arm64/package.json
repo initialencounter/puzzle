@@ -24,7 +24,7 @@
   "files": [
     "puzzle.android-arm64.node"
   ],
-  "license": "MIT",
+  "license": "AGPL-3.0",
   "engines": {
     "node": ">= 10"
   }

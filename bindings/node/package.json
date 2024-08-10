@@ -1,6 +1,6 @@
 {
   "name": "@initencounter/puzzle",
-  "version": "0.1.2-beta.4",
+  "version": "0.2.0",
   "main": "index.js",
   "types": "index.d.ts",
   "napi": {
@@ -27,7 +27,7 @@
     "url": "https://github.com/initialencounter/puzzle/issues"
   },
   "homepage": "https://github.com/initialencounter/puzzle/tree/main/bindings/node",
-  "license": "MIT",
+  "license": "AGPL-3.0",
   "devDependencies": {
     "@napi-rs/cli": "^2.18.4",
     "ava": "^6.0.1"
