@@ -1,14 +1,14 @@
 use rand::Rng;
 use std::time::{SystemTime, UNIX_EPOCH};
 
-const DIRECTION_DIST: phf::Map<&'static str, [i32; 2]> = phf::phf_map! {
-    "U" => [-1, 0],
-    "D" => [1, 0],
-    "L" => [0, -1],
-    "R" => [0, 1]
+const DIRECTION_DIST: phf::Map<char, [i32; 2]> = phf::phf_map! {
+    'U' => [-1, 0],
+    'D' => [1, 0],
+    'L' => [0, -1],
+    'R' => [0, 1]
 };
 
-const DIRECTION_LIST: [&str; 4] = ["U", "D", "L", "R"];
+const DIRECTION_LIST: [char; 4] = ['U', 'D', 'L', 'R'];
 
 
 pub struct Puzzle {
@@ -66,28 +66,28 @@ impl Puzzle {
         None
     }
 
-    pub fn move_tile<'a>(&'a mut self, direction: &'a str) -> &str {
-        self.cmds_str.push_str(direction);
+    pub fn move_tile(&mut self, direction: char) -> Option<char> {
+        self.cmds_str.push(direction);
         if let Some((r, c)) = self.find_0() {
-            if (r == 0 && direction == "U")
-                || (r == self.mode - 1 && direction == "D")
-                || (c == 0 && direction == "L")
-                || (c == self.mode - 1 && direction == "R")
+            if (r == 0 && direction == 'U')
+                || (r == self.mode - 1 && direction == 'D')
+                || (c == 0 && direction == 'L')
+                || (c == self.mode - 1 && direction == 'R')
             {
-                return "";
+                return None
             }
 
-            if let Some(&[dr, dc]) = DIRECTION_DIST.get(direction) {
+            if let Some(&[dr, dc]) = DIRECTION_DIST.get(&direction) {
                 let rr = (r as i32 + dr) as usize;
                 let cc = (c as i32 + dc) as usize;
 
                 let num1 = self.puzzle[rr][cc];
                 self.puzzle[r][c] = num1;
                 self.puzzle[rr][cc] = 0;
-                return direction;
+                return Some(direction)
             }
         }
-        ""
+        return None
     }
 
     pub fn check(&mut self) -> bool {
@@ -109,9 +109,7 @@ impl Puzzle {
         let uppercase = sequence.to_uppercase();
         self.cmds_str.clear();
         for command in uppercase.chars() {
-            let command_str = command.to_string();
-            let _ = self.move_tile(&command_str);
-
+            self.move_tile(command);
             if self.check() {
                 return true;
             }
@@ -165,7 +163,7 @@ mod tests {
             println!("{:?}", puzzle.puzzle[i]);
         }
         println!();
-        puzzle.move_tile("U");
+        puzzle.move_tile('U');
         for i in 0..3{
             println!("{:?}", puzzle.puzzle[i]);
         }

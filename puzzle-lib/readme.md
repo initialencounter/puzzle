@@ -14,7 +14,7 @@ fn main() {
     }
     println!();
     // move the tile to the up
-    puzzle.move_tile("U");
+    puzzle.move_tile('U');
     // show the puzzle
     for i in 0..3{
         println!("{:?}", puzzle.puzzle[i]);
