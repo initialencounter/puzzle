@@ -37,16 +37,16 @@ fn direction(puzzle: Arc<Mutex<Puzzle>>) {
                 exit(0);
             }
             Keycode::Up => {
-                puzzle.move_sequence(&"U");
+                puzzle.move_tile('U');
             }
             Keycode::Down => {
-                puzzle.move_sequence(&"D");
+                puzzle.move_tile('D');
             }
             Keycode::Left => {
-                puzzle.move_sequence(&"L");
+                puzzle.move_tile('L');
             }
             Keycode::Right => {
-                puzzle.move_sequence(&"R");
+                puzzle.move_tile('R');
             }
             _ => {}
         }

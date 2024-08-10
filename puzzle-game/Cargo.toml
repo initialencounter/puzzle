@@ -1,6 +1,6 @@
 [package]
 name = "puzzle-game"
-version = "0.1.2"
+version = "0.2.0"
 edition = "2021"
 authors = ["inintencunter <2911583893@qq.com>"]
 include = [
@@ -20,8 +20,8 @@ license = "AGPL-3.0"
 repository = "https://github.com/initialencounter/puzzle"
 
 [dependencies]
-log = "0.4.21"
+log = "0.4.22"
 device_query = "2.1.0"
-crossterm = "0.27.0"
-puzzle-lib = "0.1.0"
+crossterm = "0.28.1"
+puzzle-lib = "0.2.0"
 
