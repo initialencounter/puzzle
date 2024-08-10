@@ -67,7 +67,6 @@ impl Puzzle {
     }
 
     pub fn move_tile(&mut self, direction: char) -> Option<char> {
-        self.cmds_str.push(direction);
         if let Some((r, c)) = self.find_0() {
             if (r == 0 && direction == 'U')
                 || (r == self.mode - 1 && direction == 'D')
@@ -78,6 +77,7 @@ impl Puzzle {
             }
 
             if let Some(&[dr, dc]) = DIRECTION_DIST.get(&direction) {
+                self.cmds_str.push(direction);
                 let rr = (r as i32 + dr) as usize;
                 let cc = (c as i32 + dc) as usize;
 
