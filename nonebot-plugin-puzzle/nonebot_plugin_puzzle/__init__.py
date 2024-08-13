@@ -6,6 +6,17 @@ from puzzle_rs import PuzzleCore as Puzzle
 from .render import Render
 from nonebot.adapters.onebot.v11 import GroupMessageEvent
 from .rank import add_point, get_rank, get_point
+from nonebot.plugin import PluginMetadata
+
+__plugin_meta__ = PluginMetadata(
+    name="数字华容道",
+    description="这是一个数字华容道插件",
+    usage="https://github.com/initialencounter/puzzle/blob/main/nonebot-plugin-puzzle/README.md",
+    type="application",
+    homepage="https://github.com/initialencounter/puzzle",
+    supported_adapters={"~onebot.v11"},
+    extra={},
+)
 
 group_id_list_cache, obj_cache, group_id_list, obj_dist = [], {}, [], {}
 direction_list, mode_list, mode_dist = ['U', 'D', 'L', 'R'], ['8', '15', '24'], {'8': 3, '15': 4, '24': 5}
@@ -44,8 +55,9 @@ async def _(event: GroupMessageEvent, args: Message = CommandArg()):
         add_point(group_id=group_id, uid=uid, name=event.sender.nickname, mode=mode)
         buf = render_list[mode - 3].get_buf(puzzle.get_puzzle())
         points = get_point(uid=uid, group=group_id, mode=mode)
-        await hrd.finish(f"执行操作{puzzle.get_cmds_str()}\n已还原,用时：{puzzle.duration()}\n获得积分1,当前积分{points}\n" +
-                         MessageSegment.image(buf.getvalue()))
+        await hrd.finish(
+            f"执行操作{puzzle.get_cmds_str()}\n已还原,用时：{puzzle.duration()}\n获得积分1,当前积分{points}\n" +
+            MessageSegment.image(buf.getvalue()))
         group_id_list.remove(group_id)
         buf.close()
     else:
