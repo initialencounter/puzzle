@@ -28,6 +28,7 @@ jobs:
         with:
           node-version: 22
           cache: yarn
+          cache-dependency-path: bindings/node/yarn.lock
       - name: Install
         uses: dtolnay/rust-toolchain@stable
         with:
@@ -75,6 +76,7 @@ jobs:
         with:
           node-version: 22
           cache: yarn
+          cache-dependency-path: bindings/node/yarn.lock
       - name: Install
         uses: dtolnay/rust-toolchain@stable
         with:
@@ -147,6 +149,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           cache: yarn
+          cache-dependency-path: bindings/node/yarn.lock
           architecture: ${{ matrix.settings.architecture }}
       - name: Install dependencies
         run: yarn install
@@ -182,6 +185,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           cache: yarn
+          cache-dependency-path: bindings/node/yarn.lock
       - name: Output docker params
         id: docker
         run: |
@@ -244,6 +248,7 @@ jobs:
         with:
           node-version: 22
           cache: yarn
+          cache-dependency-path: bindings/node/yarn.lock
       - name: Install dependencies
         run: yarn install
       - name: create npm dirs
