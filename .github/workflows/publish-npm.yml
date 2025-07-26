@@ -118,8 +118,8 @@ jobs:
         with:
           name: bindings-${{ matrix.settings.target }}
           path: |
-            ${{ env.APP_NAME }}.*.node
-            ${{ env.APP_NAME }}.*.wasm
+            bindings/node/${{ env.APP_NAME }}.*.node
+            bindings/node/${{ env.APP_NAME }}.*.wasm
           if-no-files-found: error
   test-macOS-windows-binding:
     name: Test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
