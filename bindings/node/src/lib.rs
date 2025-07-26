@@ -1,5 +1,5 @@
-use puzzle_lib::Puzzle;
 use napi_derive::napi;
+use puzzle_lib::Puzzle;
 
 #[napi(js_name = "PuzzleCore")]
 pub struct PuzzleCore {
@@ -24,7 +24,6 @@ impl PuzzleCore {
   pub fn get_puzzle(&self) -> Vec<Vec<i32>> {
     self.inner.puzzle.clone()
   }
-
 
   #[napi]
   pub fn duration(&self) -> String {
